@@ -1,9 +1,10 @@
-<!-- resources/views/watchlist.blade.php -->
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
+            Manage Watchlist
+        </h2>
+    </x-slot>
 
-@section('title', 'Manage Watchlist')
-
-@section('content')
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-center mb-6">Manage Your Watchlist</h1>
 
@@ -25,7 +26,7 @@
         </div>
 
         <!-- Movie List -->
-        @if($movies->isEmpty())
+        @if($movies == null || $movies->isEmpty())
             <p class="text-center text-gray-600">Your watchlist is empty. Start adding some movies!</p>
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -58,4 +59,4 @@
             </div>
         @endif
     </div>
-@endsection
+</x-app-layout>
