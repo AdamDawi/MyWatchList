@@ -78,8 +78,6 @@
                                 </button>
                             </form>
 
-                            <div class="flex flex-col h-full justify-between">
-
                             <!-- Przycisk Edytuj -->
                             <button type="button"
                                     class="mt-2 bg-yellow-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-yellow-600 w-full "
@@ -101,7 +99,6 @@
                                     Remove
                                 </button>
                             </form>
-                            </div>
                         </div>
                     </div>
                 @endforeach
