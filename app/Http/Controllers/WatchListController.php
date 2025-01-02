@@ -10,6 +10,7 @@ class WatchListController extends Controller
     // Odczytanie listy
     public function index()
     {
+        //ORM - Object-Relation Mapping
         $movies = auth()->user()->movies; // Filmy użytkownika
         return view('watchlist', compact('movies'));
     }

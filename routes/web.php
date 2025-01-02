@@ -17,11 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('welcome');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,6 +26,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    // Nadanie nazw '->name' pomaga w odwoływaniu się do reguł
     Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist');
     Route::post('/watchlist', [WatchlistController::class, 'add'])->name('watchlist.add');
     Route::patch('/watchlist/{movie}', [WatchlistController::class, 'update'])->name('watchlist.update');
