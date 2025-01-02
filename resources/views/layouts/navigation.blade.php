@@ -95,6 +95,11 @@
             <x-responsive-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')">
                 {{ __('Home') }}
             </x-responsive-nav-link>
+            @auth
+            <x-responsive-nav-link :href="route('watchlist')" :active="request()->routeIs('watchlist')">
+                {{ __('Watchlist') }}
+            </x-responsive-nav-link>
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->
@@ -127,6 +132,16 @@
                 </form>
             </div>
             @endauth
+            @guest
+                <div class="mt-3 space-y-1">
+                    <x-responsive-nav-link :href="route('login')">
+                        {{ __('Login') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('register')">
+                        {{ __('Register') }}
+                    </x-responsive-nav-link>
+                </div>
+            @endguest
         </div>
     </div>
 </nav>

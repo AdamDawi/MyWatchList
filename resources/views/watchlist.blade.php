@@ -7,11 +7,6 @@
 </head>
 <body>
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Manage Watchlist
-        </h2>
-    </x-slot>
 
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-center mb-6">Manage Your Watchlist</h1>
