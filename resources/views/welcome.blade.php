@@ -3,24 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>MyWatchList</title>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
-
-    <!-- Styles -->
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Include Tailwind -->
-    <style>
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-white text-gray-800 font-sans antialiased">
 <x-app-layout>
     @auth
-        <div class="max-w-2xl mx-auto">
-            <h1 class="text-2xl font-bold text-center mb-6">Search Movies</h1>
+        <div class="max-w-3xl mx-auto px-4">
+            <h1 class="py-4 text-3xl font-bold text-center mb-6">Search Movies</h1>
             <div>
                 <input
                     id="searchInput"
@@ -28,7 +21,7 @@
                     placeholder="Type a movie name..."
                     class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <div id="results" class="mt-4 bg-white rounded-lg shadow-lg"></div>
+                <div id="results" class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
             </div>
         </div>
     @endauth
@@ -48,24 +41,22 @@
             </div>
         </div>
     @endguest
-
 </x-app-layout>
-<footer class="bg-gray-100 text-center py-4 w-full">
+
+<footer class="pt-8 pb-4 bg-gray-100 text-center w-full">
     <p class="text-gray-600">© 2025 MyWatchList. Adam Dawidziuk.</p>
 </footer>
+
 <script>
     const searchInput = document.getElementById('searchInput');
     const resultsDiv = document.getElementById('results');
-
     let debounceTimeout;
 
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.trim();
 
-        // Clear the previous timeout
         clearTimeout(debounceTimeout);
 
-        // Set a new debounce timeout
         debounceTimeout = setTimeout(async () => {
             if (!query) {
                 resultsDiv.innerHTML = '';
@@ -95,11 +86,49 @@
             return;
         }
 
-        resultsDiv.innerHTML = movies
-            .map(movie => `<p class="p-4 py-2 border-b last:border-b-0">${movie.title}</p>`)
-            .join('');
+        resultsDiv.innerHTML = movies.map(movie => `
+            <div class="bg-gray-100 p-4 rounded-lg shadow-lg flex flex-col items-center">
+                <img src="https://image.tmdb.org/t/p/original${movie.poster_path}"
+                    alt="${movie.title}"
+                    class="w-32 h-48 object-cover mb-4 rounded"
+                    onerror="this.onerror=null; this.src='https://via.placeholder.com/150';">
+                <h2 class="text-lg font-bold text-center">${movie.title}</h2>
+                <p class="text-sm text-gray-600">Release Year: ${movie.release_date ? movie.release_date.slice(0, 4) : 'N/A'}</p>
+                <p class="text-sm text-gray-600">Rating: ${movie.vote_average || 'N/A'}</p>
+                <button
+                    class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                    onclick="addToWatchlist('${movie.title}', '${movie.poster_path}')"
+                >
+                    Add to Watchlist
+                </button>
+            </div>
+        `).join('');
+    }
+
+    async function addToWatchlist(title, poster_url) {
+        poster_url = "https://image.tmdb.org/t/p/original" + poster_url
+
+        try {
+            const response = await fetch('/movies/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({title, poster_url})
+            });
+
+            const result = await response.json(); // Zawsze sprawdzaj odpowiedź w formacie JSON
+            if (result.success) {
+                alert(`"${title}" has been added to your watchlist!`);
+            } else {
+                alert(result.message || 'Failed to add the movie to your watchlist. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error adding to watchlist:', error);
+            alert('An error occurred while adding the movie to your watchlist.');
+        }
     }
 </script>
-
 </body>
 </html>

@@ -35,5 +35,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/movies/search', [MovieController::class, 'search'])->name('movies.search');
+Route::post('/movies/search', [MovieController::class, 'addFromSearch']);
 
 require __DIR__.'/auth.php';

@@ -50,7 +50,7 @@ class WatchListController extends Controller
     // Usunięcie filmu z listy
     public function remove(Movie $movie)
     {
-        // Sprawdź, czy zalogowany użytkownik jest właścicielem filmu
+        // Sprawdzenie, czy zalogowany użytkownik jest właścicielem filmu
         if (auth()->user()->id != $movie->user_id) {
             return back()->with('error', 'You are not authorized to perform this action.');
         }
