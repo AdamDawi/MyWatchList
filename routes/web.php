@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WatchListController;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/watchlist/{movie}', [WatchlistController::class, 'update'])->name('watchlist.update');
     Route::delete('/watchlist/{movie}', [WatchlistController::class, 'remove'])->name('watchlist.remove');
 });
+
+Route::get('/movies/search', [MovieController::class, 'search'])->name('movies.search');
 
 require __DIR__.'/auth.php';
