@@ -80,6 +80,27 @@
         }, 500);
     });
 
+    function escapeString(str) {
+        if (typeof str !== 'string') {
+            return '';  // Zwraca pusty string, jeśli str nie jest stringiem
+        }
+        console.log(str);
+        // Escapowanie znaków HTML
+        str = str.replace(/[&<>"']/g, function (char) {
+            const escapeMap = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": ' '
+            };
+            return escapeMap[char] || char;
+        });
+        console.log(str);
+        // Escapowanie apostrofów i cudzysłowów w stringu (dla atrybutów HTML)
+        return str;
+    }
+
     function displayResults(movies) {
         if (movies.length === 0) {
             resultsDiv.innerHTML = '<p class="p-4 text-gray-500">No results found.</p>';
@@ -97,7 +118,7 @@
                 <p class="text-sm text-gray-600">Rating: ${movie.vote_average || 'N/A'}</p>
                 <button
                     class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-                    onclick="addToWatchlist('${movie.title}', '${movie.poster_path}')"
+                    onclick="addToWatchlist('${movie.title}', '${movie.poster_path}', '${movie.release_date}', '${movie.vote_average}', '${escapeString(movie.overview)}')"
                 >
                     Add to Watchlist
                 </button>
@@ -105,7 +126,7 @@
         `).join('');
     }
 
-    async function addToWatchlist(title, poster_url) {
+    async function addToWatchlist(title, poster_url, release_date, vote_average, overview) {
         poster_url = "https://image.tmdb.org/t/p/original" + poster_url
 
         try {
@@ -115,7 +136,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({title, poster_url})
+                body: JSON.stringify({title, poster_url, release_date, vote_average, overview})
             });
 
             const result = await response.json(); // Zawsze sprawdzaj odpowiedź w formacie JSON

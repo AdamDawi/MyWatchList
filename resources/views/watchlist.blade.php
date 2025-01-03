@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+@php use Carbon\Carbon; @endphp
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Watchlist</title>
+    <!-- CDN FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <x-app-layout>
@@ -36,21 +39,46 @@
                 @foreach($movies as $movie)
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <div
-                            class="w-full h-64 flex items-center justify-center bg-gray-100 border-2 border-dashed border-gray-400">
-                            <img src="{{ $movie->poster_url }} "
+                            class="relative w-full h-64 flex justify-center items-center bg-gray-100 border-2 border-dashed border-gray-400">
+                            <img src="{{ $movie->poster_url }}"
                                  alt="{{ $movie->title }}"
                                  class="w-full h-64 object-cover"
                                  onerror="this.onerror=null; this.src='/images/no_image_placeholder.png'; this.className='h-32 object-contain bg-gray-100 border-2 border-dashed border-gray-400';">
                         </div>
+
                         <div class="p-4">
-                            <h2 class="text-lg font-semibold text-center">{{ $movie->title }}</h2>
+                            <div class="flex items-center justify-center">
+                                <h2 class="text-lg font-semibold">{{ $movie->title }}  </h2>
+                                <div class="px-1"></div>
+                                <a href="{{ route('movie.details', $movie->id) }}"
+                                   class="px-2 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm">
+                                    <i class="fas fa-info"></i>
+                                </a>
+                            </div>
+
+
+                            <!-- Release Date -->
+                            <p class="text-gray-600 text-sm text-center">
+                                <strong>Release Date:</strong>
+                                {{ $movie->release_date ? Carbon::parse($movie->release_date)->format('Y') : 'N/A' }}
+                            </p>
+
+                            <!-- Vote Average -->
+                            <p class="text-gray-600 text-sm text-center">
+                                <strong>Rating:</strong>
+                                {{ $movie->vote_average !== null ? number_format($movie->vote_average, 1) . ' / 10' : 'N/A' }}
+                            </p>
 
                             <!-- Notatka -->
                             <div id="note-display-{{ $movie->id }}">
-                                <!-- Wyświetlany tekst notatki -->
+                                @if($movie->note != "" && $movie->note != null)
+                                    <p class="text-gray-600 text-sm text-center">
+                                        <strong>Note:</strong>
+                                    </p>
+                                @endif
                                 <span id="note-text-{{ $movie->id }}">
-                                    {{ $movie->note }}
-                                </span>
+                                {{ $movie->note }}
+                            </span>
                             </div>
 
                             <!-- Formularz edytowania notatki -->
@@ -95,6 +123,7 @@
                                 </button>
                             </form>
                         </div>
+
                     </div>
                 @endforeach
             </div>

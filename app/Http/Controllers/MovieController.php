@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Movie;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -12,12 +12,11 @@ class MovieController extends Controller
     {
         $query = $request->input('query', '');
 
-        // Return an empty result set if the query is blank
+        // Zwróć pusty wynik, jeśli query jest puste
         if (empty($query)) {
             return response()->json(['movies' => []]);
         }
 
-        // API URL and headers
         $apiUrl = 'https://api.themoviedb.org/3/search/movie';
         $apiKey = config('services.tmdb.api_key');
 
@@ -39,7 +38,7 @@ class MovieController extends Controller
             }
 
             return response()->json(['error' => 'API Error'], 500);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'Something went wrong'], 500);
         }
     }
@@ -49,18 +48,21 @@ class MovieController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
-                'poster_url' => 'required|url'
+                'poster_url' => 'required|url',
+                'release_date' => 'date',
+                'vote_average' => 'numeric',
+                'overview' => 'string',
             ]);
 
             auth()->user()->movies()->create($validated);
 
-        }catch (\Exception $e) {
-            // Zwrócenie odpowiedzi JSON
+        }catch (Exception $e) {
+            // Zwrócenie odpowiedzi JSON z errorem
             $errorMessage = $e->getMessage();
             return response()->json(['success' => false, 'message' => $errorMessage]);
         }
 
-        // Zwrócenie odpowiedzi JSON
+        // Zwrócenie odpowiedzi JSON z sukcesem
         return response()->json(['success' => true, 'message' => 'Movie added to your watchlist!']);
     }
 

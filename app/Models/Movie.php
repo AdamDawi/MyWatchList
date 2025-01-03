@@ -13,6 +13,9 @@ class Movie extends Model
         'poster_url',
         'note',
         'user_id',
+        'release_date',
+        'vote_average',
+        'overview'
     ];
     // Relacja do użytkownika
     public function user()

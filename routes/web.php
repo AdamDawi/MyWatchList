@@ -32,9 +32,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/watchlist', [WatchlistController::class, 'add'])->name('watchlist.add');
     Route::patch('/watchlist/{movie}', [WatchlistController::class, 'update'])->name('watchlist.update');
     Route::delete('/watchlist/{movie}', [WatchlistController::class, 'remove'])->name('watchlist.remove');
+    //TODO edit this
+    Route::delete('/movie/details', [WatchlistController::class, 'remove'])->name('movie.details');
 });
 
-Route::get('/movies/search', [MovieController::class, 'search'])->name('movies.search');
-Route::post('/movies/search', [MovieController::class, 'addFromSearch']);
+Route::middleware('auth')->group(function () {
+    Route::get('/movies/search', [MovieController::class, 'search'])->name('movies.search');
+    Route::post('/movies/search', [MovieController::class, 'addFromSearch']);
+});
 
 require __DIR__.'/auth.php';
