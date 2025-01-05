@@ -118,7 +118,7 @@
                 <p class="text-sm text-gray-600">Rating: ${movie.vote_average || 'N/A'}</p>
                 <button
                     class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-                    onclick="addToWatchlist('${movie.title}', '${movie.poster_path}', '${movie.release_date}', '${movie.vote_average}', '${escapeString(movie.overview)}')"
+                    onclick="addToWatchlist('${escapeString(movie.title)}', '${movie.poster_path}', '${movie.backdrop_path}', '${movie.release_date}', '${movie.vote_average}', '${escapeString(movie.overview)}')"
                 >
                     Add to Watchlist
                 </button>
@@ -126,8 +126,9 @@
         `).join('');
     }
 
-    async function addToWatchlist(title, poster_url, release_date, vote_average, overview) {
+    async function addToWatchlist(title, poster_url, backdrop_path, release_date, vote_average, overview) {
         poster_url = "https://image.tmdb.org/t/p/original" + poster_url
+        backdrop_path = "https://image.tmdb.org/t/p/original" + backdrop_path
 
         try {
             const response = await fetch('/movies/search', {
@@ -136,7 +137,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({title, poster_url, release_date, vote_average, overview})
+                body: JSON.stringify({title, poster_url, backdrop_path, release_date, vote_average, overview})
             });
 
             const result = await response.json(); // Zawsze sprawdzaj odpowiedź w formacie JSON

@@ -49,7 +49,8 @@ class MovieController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
-                'poster_url' => 'required|url',
+                'poster_url' => 'url',
+                'backdrop_path' => 'url',
                 'release_date' => 'date',
                 'vote_average' => 'numeric',
                 'overview' => 'string',
