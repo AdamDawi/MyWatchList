@@ -50,7 +50,7 @@
                             <div class="flex items-center justify-center">
                                 <h2 class="text-lg font-semibold">{{ $movie->title }}  </h2>
                                 <div class="px-1"></div>
-                                <a href="{{ route('movie.details', $movie->id) }}"
+                                <a href="{{ route('movie.details', $movie->id )}}"
                                    class="px-2 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm">
                                     <i class="fas fa-info"></i>
                                 </a>

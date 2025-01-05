@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movie;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -64,6 +65,16 @@ class MovieController extends Controller
 
         // Zwrócenie odpowiedzi JSON z sukcesem
         return response()->json(['success' => true, 'message' => 'Movie added to your watchlist!']);
+    }
+
+    public function movieDetails(Movie $movie)
+    {
+        // Sprawdzenie, czy zalogowany użytkownik jest właścicielem filmu
+        if (auth()->user()->id != $movie->user_id) {
+            return back()->with('error', 'You are not authorized to perform this action.');
+        }
+        // Zwracanie widoku z danymi filmu
+        return view('movie_details', compact('movie'));
     }
 
 }
