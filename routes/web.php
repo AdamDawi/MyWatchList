@@ -32,7 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/watchlist', [WatchlistController::class, 'add'])->name('watchlist.add');
     Route::patch('/watchlist/{movie}', [WatchlistController::class, 'update'])->name('watchlist.update');
     Route::delete('/watchlist/{movie}', [WatchlistController::class, 'remove'])->name('watchlist.remove');
-    //TODO edit this
     Route::get('/watchlist/movie/{movie}', [MovieController::class, 'movieDetails'])->name('movie.details');
 });
 

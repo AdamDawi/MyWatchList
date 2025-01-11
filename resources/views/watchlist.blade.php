@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Watchlist</title>
-    <!-- CDN FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <x-app-layout>
@@ -48,12 +46,9 @@
 
                         <div class="p-4">
                             <div class="flex items-center justify-center">
-                                <h2 class="text-lg font-semibold">{{ $movie->title }}  </h2>
+                                <h2 class="text-lg font-semibold align-middle">{{ $movie->title }}  </h2>
                                 <div class="px-1"></div>
-                                <a href="{{ route('movie.details', $movie->id )}}"
-                                   class="px-2 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm">
-                                    <i class="fas fa-info"></i>
-                                </a>
+
                             </div>
 
 
@@ -107,7 +102,7 @@
                                     style="background-color: #FBBF24;"
                                     id="edit-btn-{{ $movie->id }}"
                                     onclick="toggleEditForm({{ $movie->id }})">
-                                Edit
+                                Edit note
                             </button>
 
                             <!-- Przycisk Remove -->
@@ -122,6 +117,19 @@
                                     Remove
                                 </button>
                             </form>
+
+                            <!-- Przycisk Read more -->
+                            <form
+                                id="readmore-btn-{{ $movie->id }}"
+                                action="{{ route('movie.details', $movie->id) }}" method="GET"
+                                class="mt-4 text-center">
+                                    @csrf
+                                <button type="submit"
+                                   class="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 w-full">
+                                    Read more
+                                </button>
+
+                            </form>
                         </div>
 
                     </div>
@@ -133,6 +141,7 @@
         // Funkcja do przełączania widoczności notatki i formularza edycji
         function toggleEditForm(movieId) {
             var removeBtn = document.getElementById('remove-btn-' + movieId);
+            var readMoreBtn = document.getElementById('readmore-btn-' + movieId);
             var editForm = document.getElementById('edit-note-form-' + movieId);
             var noteDisplay = document.getElementById('note-display-' + movieId);
             var editBtn = document.getElementById('edit-btn-' + movieId);
@@ -143,12 +152,14 @@
                 editForm.style.display = 'block';
                 editBtn.style.display = 'none'; // Ukryj przycisk po edytowaniu
                 removeBtn.style.display = 'none'; // Ukryj przycisk po edytowaniu
+                readMoreBtn.style.display = 'none'; // Ukryj przycisk po edytowaniu
             } else {
                 // Ukryj textarea i pokaż tekst
                 noteDisplay.style.display = 'block';
                 editForm.style.display = 'none';
                 editBtn.style.display = 'block'; // Pokaż przycisk po zapisaniu
                 removeBtn.style.display = 'block'; // Pokaż przycisk po zapisaniu
+                readMoreBtn.style.display = 'block'; // Pokaż przycisk po zapisaniu
             }
         }
     </script>
