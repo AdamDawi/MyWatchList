@@ -1,5 +1,4 @@
-@php use Carbon\Carbon; @endphp
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,20 +6,23 @@
     <title>Manage Watchlist</title>
 </head>
 <body>
+@php use Carbon\Carbon; @endphp
 <x-app-layout>
-
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-center mb-6">Manage Your Watchlist</h1>
 
-        <!-- Add Movie Form -->
+        <!-- Form to Add a New Movie to the Watchlist -->
         <div class="bg-white shadow-md rounded-lg p-6 mb-8">
             <form action="{{ route('watchlist.add') }}" method="POST">
                 @csrf
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Input for Movie Title -->
                     <input type="text" name="title" placeholder="Movie Title" required
                            class="border border-gray-300 rounded-lg p-2">
+                    <!-- Input for Movie Poster URL -->
                     <input type="url" name="poster_url" placeholder="Poster URL" required
                            class="border border-gray-300 rounded-lg p-2">
+                    <!-- Submit Button to Add Movie -->
                     <button type="submit"
                             class="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600">
                         Add Movie
@@ -29,13 +31,16 @@
             </form>
         </div>
 
-        <!-- Movie List -->
+        <!-- Display the Movie List or a Placeholder if Empty -->
         @if($movies == null || $movies->isEmpty())
+            <!-- Message for an Empty Watchlist -->
             <p class="text-center text-gray-600">Your watchlist is empty. Start adding some movies!</p>
         @else
+            <!-- Grid to Display Movies -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach($movies as $movie)
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                        <!-- Movie Poster -->
                         <div
                             class="relative w-full h-64 flex justify-center items-center bg-gray-100 border-2 border-dashed border-gray-400">
                             <img src="{{ $movie->poster_url }}"
@@ -44,13 +49,12 @@
                                  onerror="this.onerror=null; this.src='/images/no_image_placeholder.png'; this.className='h-32 object-contain bg-gray-100 border-2 border-dashed border-gray-400';">
                         </div>
 
+                        <!-- Movie Details -->
                         <div class="p-4">
                             <div class="flex items-center justify-center">
-                                <h2 class="text-lg font-semibold align-middle">{{ $movie->title }}  </h2>
-                                <div class="px-1"></div>
-
+                                <!-- Movie Title -->
+                                <h2 class="text-lg font-semibold align-middle">{{ $movie->title }}</h2>
                             </div>
-
 
                             <!-- Release Date -->
                             <p class="text-gray-600 text-sm text-center">
@@ -64,7 +68,7 @@
                                 {{ $movie->vote_average !== null ? number_format($movie->vote_average, 1) . ' / 10' : 'N/A' }}
                             </p>
 
-                            <!-- Notatka -->
+                            <!-- Display Note -->
                             <div id="note-display-{{ $movie->id }}">
                                 @if($movie->note != "" && $movie->note != null)
                                     <p class="text-gray-600 text-sm text-center">
@@ -76,7 +80,7 @@
                             </span>
                             </div>
 
-                            <!-- Formularz edytowania notatki -->
+                            <!-- Form to Edit Note -->
                             <form action="{{ route('watchlist.update', $movie->id) }}" method="POST"
                                   class="mt-4 text-center" id="edit-note-form-{{ $movie->id }}" style="display:none;">
                                 @csrf
@@ -84,11 +88,12 @@
                                 <textarea name="note" rows="3" placeholder="Add a note..."
                                           class="w-full border rounded-lg p-2" id="note-textarea-{{ $movie->id }}"
                                           required>{{ $movie->note }}</textarea>
+                                <!-- Save Button -->
                                 <button type="submit"
                                         class="mt-2 bg-green-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-600 w-full">
                                     Save Note
                                 </button>
-                                <!-- Przycisk Cancel -->
+                                <!-- Cancel Button -->
                                 <button type="button"
                                         class="mt-2 bg-gray-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-600 w-full"
                                         onclick="toggleEditForm({{ $movie->id }})">
@@ -96,20 +101,19 @@
                                 </button>
                             </form>
 
-                            <!-- Przycisk Edytuj -->
+                            <!-- Edit Note Button -->
                             <button type="button"
-                                    class="mt-2 bg-yellow-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-yellow-600 w-full "
-                                    style="background-color: #FBBF24;"
+                                    class="mt-2 bg-yellow-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-yellow-600 w-full"
                                     id="edit-btn-{{ $movie->id }}"
+                                    style="background-color: #FBBF24;"
                                     onclick="toggleEditForm({{ $movie->id }})">
-                                Edit note
+                                Edit Note
                             </button>
 
-                            <!-- Przycisk Remove -->
-                            <form
-                                id="remove-btn-{{ $movie->id }}"
-                                action="{{ route('watchlist.remove', $movie->id) }}" method="POST"
-                                class="mt-4 text-center">
+                            <!-- Remove Movie Button -->
+                            <form id="remove-btn-{{ $movie->id }}"
+                                  action="{{ route('watchlist.remove', $movie->id) }}" method="POST"
+                                  class="mt-4 text-center">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
@@ -118,27 +122,24 @@
                                 </button>
                             </form>
 
-                            <!-- Przycisk Read more -->
-                            <form
-                                id="readmore-btn-{{ $movie->id }}"
-                                action="{{ route('movie.details', $movie->id) }}" method="GET"
-                                class="mt-4 text-center">
-                                    @csrf
+                            <!-- Read More Button -->
+                            <form id="readmore-btn-{{ $movie->id }}"
+                                  action="{{ route('movie.details', $movie->id) }}" method="GET"
+                                  class="mt-4 text-center">
+                                @csrf
                                 <button type="submit"
-                                   class="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 w-full">
-                                    Read more
+                                        class="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600 w-full">
+                                    Read More
                                 </button>
-
                             </form>
                         </div>
-
                     </div>
                 @endforeach
             </div>
         @endif
     </div>
     <script>
-        // Funkcja do przełączania widoczności notatki i formularza edycji
+        // Function to Toggle Note Editing Form Visibility
         function toggleEditForm(movieId) {
             var removeBtn = document.getElementById('remove-btn-' + movieId);
             var readMoreBtn = document.getElementById('readmore-btn-' + movieId);
@@ -147,19 +148,17 @@
             var editBtn = document.getElementById('edit-btn-' + movieId);
 
             if (editForm.style.display === 'none' || editForm.style.display === '') {
-                // Ukryj tekst i pokaż textarea
                 noteDisplay.style.display = 'none';
                 editForm.style.display = 'block';
-                editBtn.style.display = 'none'; // Ukryj przycisk po edytowaniu
-                removeBtn.style.display = 'none'; // Ukryj przycisk po edytowaniu
-                readMoreBtn.style.display = 'none'; // Ukryj przycisk po edytowaniu
+                editBtn.style.display = 'none';
+                removeBtn.style.display = 'none';
+                readMoreBtn.style.display = 'none';
             } else {
-                // Ukryj textarea i pokaż tekst
                 noteDisplay.style.display = 'block';
                 editForm.style.display = 'none';
-                editBtn.style.display = 'block'; // Pokaż przycisk po zapisaniu
-                removeBtn.style.display = 'block'; // Pokaż przycisk po zapisaniu
-                readMoreBtn.style.display = 'block'; // Pokaż przycisk po zapisaniu
+                editBtn.style.display = 'block';
+                removeBtn.style.display = 'block';
+                readMoreBtn.style.display = 'block';
             }
         }
     </script>
