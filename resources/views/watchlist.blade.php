@@ -19,9 +19,19 @@
                     <!-- Input for Movie Title -->
                     <input type="text" name="title" placeholder="Movie Title" required
                            class="border border-gray-300 rounded-lg p-2">
+
                     <!-- Input for Movie Poster URL -->
                     <input type="url" name="poster_url" placeholder="Poster URL" required
                            class="border border-gray-300 rounded-lg p-2">
+
+                    <!-- Input for Movie Release Date (optional) -->
+                    <input type="date" name="release_date" placeholder="Release Date (optional)"
+                           class="border border-gray-300 rounded-lg p-2">
+
+                    <!-- Input for Backdrop Path -->
+                    <input type="url" name="backdrop_path" placeholder="Backdrop Path (optional)"
+                           class="border border-gray-300 rounded-lg p-2">
+
                     <!-- Submit Button to Add Movie -->
                     <button type="submit"
                             class="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-600">
@@ -30,6 +40,7 @@
                 </div>
             </form>
         </div>
+
 
         <!-- Display the Movie List or a Placeholder if Empty -->
         @if($movies == null || $movies->isEmpty())

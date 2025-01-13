@@ -21,9 +21,14 @@ class WatchListController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'poster_url' => 'required|url',
+            'release_date' => 'nullable|date',
+            'backdrop_path' => 'nullable|url',
         ]);
 
+        // Tworzenie filmu powiązanego z aktualnie zalogowanym użytkownikiem
         auth()->user()->movies()->create($validated);
+
+        // Przekierowanie z wiadomością sukcesu
         return redirect()->route('watchlist')->with('success', 'Movie added to your watchlist!');
     }
 
