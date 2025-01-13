@@ -20,7 +20,7 @@ class WatchListController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'poster_url' => 'required|url',
+            'poster_url' => 'nullable|url',
             'release_date' => 'nullable|date',
             'backdrop_path' => 'nullable|url',
             'vote_average' => 'nullable|numeric|min:0|max:10'

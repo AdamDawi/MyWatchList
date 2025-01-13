@@ -62,7 +62,7 @@
                             class="relative w-full h-64 flex justify-center items-center bg-gray-100 border-2 border-dashed border-gray-400">
                             <img src="{{ $movie->poster_url }}"
                                  alt="{{ $movie->title }}"
-                                 class="w-full h-64 object-cover"
+                                 class="absolute inset-0 w-full h-64 object-cover"
                                  onerror="this.onerror=null; this.src='/images/no_image_placeholder.png'; this.className='h-32 object-contain bg-gray-100 border-2 border-dashed border-gray-400';">
                         </div>
 
