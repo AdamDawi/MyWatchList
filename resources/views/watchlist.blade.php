@@ -21,15 +21,20 @@
                            class="border border-gray-300 rounded-lg p-2">
 
                     <!-- Input for Movie Poster URL -->
-                    <input type="url" name="poster_url" placeholder="Poster URL" required
+                    <input type="url" name="poster_url" placeholder="Poster URL"
                            class="border border-gray-300 rounded-lg p-2">
 
                     <!-- Input for Movie Release Date (optional) -->
                     <input type="date" name="release_date" placeholder="Release Date (optional)"
                            class="border border-gray-300 rounded-lg p-2">
 
-                    <!-- Input for Backdrop Path -->
+                    <!-- Input for Backdrop Path (optional) -->
                     <input type="url" name="backdrop_path" placeholder="Backdrop Path (optional)"
+                           class="border border-gray-300 rounded-lg p-2">
+
+                    <!-- Input for Vote Average (optional) -->
+                    <input type="number" step="0.01" name="vote_average" placeholder="Vote Average (optional)"
+                           min="0" max="10"
                            class="border border-gray-300 rounded-lg p-2">
 
                     <!-- Submit Button to Add Movie -->
@@ -40,6 +45,7 @@
                 </div>
             </form>
         </div>
+
 
 
         <!-- Display the Movie List or a Placeholder if Empty -->

@@ -23,6 +23,7 @@ class WatchListController extends Controller
             'poster_url' => 'required|url',
             'release_date' => 'nullable|date',
             'backdrop_path' => 'nullable|url',
+            'vote_average' => 'nullable|numeric|min:0|max:10'
         ]);
 
         // Tworzenie filmu powiązanego z aktualnie zalogowanym użytkownikiem
@@ -42,7 +43,12 @@ class WatchListController extends Controller
 
         // Walidacja danych
         $validated = $request->validate([
-            'note' => 'required|string|max:500',
+            'title' => 'nullable|string|max:255',
+            'poster_url' => 'nullable|url',
+            'release_date' => 'nullable|date',
+            'backdrop_path' => 'nullable|url',
+            'vote_average' => 'nullable|numeric|min:0|max:10',
+            'note' => 'nullable|string|max:500'
         ]);
 
         // Aktualizacja notatki

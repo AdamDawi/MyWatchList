@@ -69,11 +69,19 @@
         </div>
 
         <!-- User Section -->
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-end">
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-between w-full">
+            <!-- Edit Button -->
+            <button type="button"
+                    onclick="openModal({{ $movie->id }})"
+                    class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 px-4 py-3 text-white rounded-lg font-medium transition">
+                Edit
+            </button>
+
+            <!-- Remove Button -->
             <form
                 id="remove-btn-{{ $movie->id }}"
                 action="{{ route('watchlist.remove', $movie->id) }}" method="POST"
-                class="w-full sm:w-auto text-center">
+                class="w-full sm:w-auto text-center mt-4 sm:mt-0">
                 @csrf
                 @method('DELETE')
                 <button type="submit"
@@ -82,7 +90,62 @@
                 </button>
             </form>
         </div>
+
+        <!-- Modal -->
+        <div id="edit-modal-{{ $movie->id }}" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-lg w-full sm:w-1/2 p-6 relative">
+                <!-- Close Modal Button -->
+                <button type="button"
+                        onclick="closeModal({{ $movie->id }})"
+                        class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                    &times;
+                </button>
+
+                <!-- Form -->
+                <form action="{{ route('watchlist.update', $movie->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <div class="grid gap-4">
+                        <!-- Title -->
+                        <input type="text" name="title" value="{{ $movie->title }}" required
+                               class="border border-gray-300 rounded-lg p-2" placeholder="Movie Title">
+
+                        <!-- Poster URL -->
+                        <input type="url" name="poster_url" value="{{ $movie->poster_url }}"
+                               class="border border-gray-300 rounded-lg p-2" placeholder="Poster URL">
+
+                        <!-- Release Date -->
+                        <input type="date" name="release_date" value="{{ $movie->release_date }}"
+                               class="border border-gray-300 rounded-lg p-2" placeholder="Release Date">
+
+                        <!-- Backdrop Path -->
+                        <input type="url" name="backdrop_path" value="{{ $movie->backdrop_path }}"
+                               class="border border-gray-300 rounded-lg p-2" placeholder="Backdrop Path">
+
+                        <!-- Vote Average -->
+                        <input type="number" step="0.01" name="vote_average" value="{{ $movie->vote_average }}"
+                               class="border border-gray-300 rounded-lg p-2" placeholder="Vote Average (0-10)" min="0" max="10">
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 </div>
+<script>
+    function openModal(movieId) {
+        document.getElementById(`edit-modal-${movieId}`).classList.remove('hidden');
+    }
+
+    function closeModal(movieId) {
+        document.getElementById(`edit-modal-${movieId}`).classList.add('hidden');
+    }
+</script>
 </body>
 </html>
