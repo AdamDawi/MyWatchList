@@ -21,7 +21,7 @@
                            class="border border-gray-300 rounded-lg p-2">
 
                     <!-- Input for Movie Poster URL -->
-                    <input type="url" name="poster_url" placeholder="Poster URL"
+                    <input type="url" name="poster_url" placeholder="Poster URL (optional)"
                            class="border border-gray-300 rounded-lg p-2">
 
                     <!-- Input for Movie Release Date (optional) -->
@@ -59,11 +59,11 @@
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <!-- Movie Poster -->
                         <div
-                            class="relative w-full h-64 flex justify-center items-center bg-gray-100 border-2 border-dashed border-gray-400">
+                            class="relative w-full h-64 flex justify-center items-center bg-gray-100">
                             <img src="{{ $movie->poster_url }}"
                                  alt="{{ $movie->title }}"
                                  class="absolute inset-0 w-full h-64 object-cover"
-                                 onerror="this.onerror=null; this.src='/images/no_image_placeholder.png'; this.className='h-32 object-contain bg-gray-100 border-2 border-dashed border-gray-400';">
+                                 onerror="this.onerror=null; this.src='/images/no_image_placeholder.png'; this.className='h-32 object-contain bg-gray-100';">
                         </div>
 
                         <!-- Movie Details -->
