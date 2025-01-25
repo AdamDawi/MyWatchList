@@ -67,9 +67,9 @@ http://localhost:8000
 ![Image](https://github.com/user-attachments/assets/9bf05122-6d4c-4d84-aab5-1ab69f1727a5)
 
 ## Here are some phone overview pictures:
-![Image](https://github.com/user-attachments/assets/07e2f133-91af-4199-82f0-27cbefb3f9f3)
-![Image](https://github.com/user-attachments/assets/0aae1fa8-bf67-4bf5-b3b6-ed290c372ab7)
-![Image](https://github.com/user-attachments/assets/eac43403-7ae5-4241-89cf-406b0f1708e1)
+![Image](https://github.com/user-attachments/assets/ac107792-c1c1-4c20-8246-679cb9620181)
+![Image](https://github.com/user-attachments/assets/170316b3-4d69-4bb9-b3bf-9f2fbd1bf941)
+![Image](https://github.com/user-attachments/assets/5c6702ba-2a54-4955-a6c1-9325c1109fdd)
 
 ## Requirements
 - PHP 8.1+
