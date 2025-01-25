@@ -21,7 +21,11 @@
 ### Home Page
 - **Search for Movies:** Enter a movie title, and the app will display results from the TMDB API. For each movie, the following details are available:
   - Title
-  
+  - Poster (`poster_url`)
+  - Background image (`backdrop_path`)
+  - Release date (`release_date`)
+  - Average rating (`vote_average`)
+  - Movie description
 - **Add Movies to WatchList:** Movies found in the search results can be added to your WatchList.
 
 ### WatchList
